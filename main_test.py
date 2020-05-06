@@ -21,11 +21,11 @@ parser = argparse.ArgumentParser(description='PyTorch ARCNN/FastARCNN/DnCNN')
 parser.add_argument('--model_choice', default='DnCNN', type=str, help='choose the model type')
 parser.add_argument('--QT_FACTOR', default=40, type=int, help='quantization factor')
 parser.add_argument('--test_batchsize', default=8, type=int, help='training batches')
-parser.add_argument('--InputFolder', default='/home/zhouyi/new/ARCNN-pytorch/data/vimeo_part_q40_crop', type=str, help='inputfolder')
-parser.add_argument('--LabelFolder', default='/home/zhouyi/new/ARCNN-pytorch/data/vimeo_part_crop', type=str, help='LabelFolder')
-parser.add_argument('--model_dir', default='/home/zhouyi/new/ARCNN-pytorch/models/DnCNN_q40/checkpoint_q40_030.pth.tar', type=str, help='model path')
-parser.add_argument('--Testlist', default='/home/zhouyi/new/ARCNN-pytorch/data/temp_sep_validationlist.txt', type=str,
-                    help='testlist')  # 7824
+parser.add_argument('--InputFolder', default='data/JPEG', type=str, help='inputfolder')
+parser.add_argument('--LabelFolder', default='data/GT', type=str, help='LabelFolder')
+parser.add_argument('--Testlist', default='data/val_list.txt', type=str,
+                    help='testlist')
+parser.add_argument('--model_dir', default='my_model/model.pth.tar', type=str, help='model path')
 
 if __name__ == '__main__':
     args = parser.parse_args()

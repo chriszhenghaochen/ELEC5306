@@ -28,11 +28,11 @@ parser.add_argument('--test_batchsize', default=1, type=int, help='training batc
 parser.add_argument('--test_interval', default=100, type=int, help='testing interval')
 parser.add_argument('--decayrate', default=0.1, type=float, help='decay rate')
 # parser.add_argument('--GPU_NUM', default=8, type=int, help='gpu_nums')
-parser.add_argument('--InputFolder', default='/home/zhouyi/new/ARCNN-pytorch/data/vimeo_part_q40_crop', type=str, help='inputfolder')
-parser.add_argument('--LabelFolder', default='/home/zhouyi/new/ARCNN-pytorch/data/vimeo_part_crop', type=str, help='LabelFolder')
-parser.add_argument('--Trainlist', default='/home/zhouyi/new/ARCNN-pytorch/data/temp_sep_trainlist.txt', type=str,
+parser.add_argument('--InputFolder', default='data/JPEG', type=str, help='inputfolder')
+parser.add_argument('--LabelFolder', default='data/GT', type=str, help='LabelFolder')
+parser.add_argument('--Trainlist', default='data/train_list.txt', type=str,
                     help='trainlist')  # 64612 *7
-parser.add_argument('--Testlist', default='/home/zhouyi/new/ARCNN-pytorch/data/temp_sep_validationlist.txt', type=str,
+parser.add_argument('--Testlist', default='data/val_list.txt', type=str,
                     help='testlist')  # 7824
 
 if __name__ == '__main__':
@@ -53,7 +53,7 @@ if __name__ == '__main__':
     cuda = torch.cuda.is_available()
     n_epoch = args.train_epoch
 
-    save_dir = os.path.join('models', args.model_name + '_' + 'q' + str(QT_FACTOR))
+    save_dir = args.model_name + '_' + 'q' + str(QT_FACTOR)
 
     if not os.path.exists(save_dir):
         os.mkdir(save_dir)
@@ -75,13 +75,16 @@ if __name__ == '__main__':
     criterion = mean_squared_error()
 
     # multi-GPU
-    if cuda and (torch.cuda.device_count()) > 1:
-
-        print("Let's use", torch.cuda.device_count(), "GPUs!")
-        device_ids = list(range(torch.cuda.device_count()))
-        model = nn.DataParallel(model, device_ids=device_ids).cuda()
+    if cuda :
+        print("use", torch.cuda.device_count(), "GPUs for training")
+        if  (torch.cuda.device_count()) > 1:
+            device_ids = list(range(torch.cuda.device_count()))
+            print("multiple GPU detected, use parallel")
+            model = nn.DataParallel(model, device_ids=device_ids).cuda()
         model.to(device)
         criterion = criterion.cuda()
+    else:
+        print("use CPU for training")
 
     model.train()
     # build optimizer and scheduler
@@ -140,7 +143,7 @@ if __name__ == '__main__':
             # batch_x: label batch_y:input
             batch_x, batch_y = batch_yx[1], batch_yx[0]
             if cuda:
-                batch_x, batch_y = batch_x, batch_y.cuda()
+                batch_x, batch_y = batch_x.cuda(), batch_y.cuda()
                 batch_x.to(device)
                 batch_y.to(device)
             # if want to save the input and result image

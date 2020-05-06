@@ -61,16 +61,16 @@ def generate_cropped_images(train_input_dir, train_label_dir, batch_paths):
         # img_label_crop.save(os.path.join(label_save_path, bp))
         img_input_crop.save(os.path.join(input_save_path, bp[:-5] + '_sig20_' + bp[-5:-4] +'.jpg'))
 
-stage_flag = 'train'
-full_train_image_list = get_full_name_list('temp_sep_trainlist.txt', stage_flag)
-# stage_flag = 'test'
-full_test_image_list = get_full_name_list('temp_sep_testlist.txt', stage_flag)
+# stage_flag = 'train'
+# full_train_image_list = get_full_name_list('temp_sep_trainlist.txt', stage_flag)
+# # stage_flag = 'test'
+# full_test_image_list = get_full_name_list('temp_sep_testlist.txt', stage_flag)
 
 
-InputFolder ='/mnt/lustre/share/sunshuyang/vimeo_septuplet/sequences_sig20'
-labelfolder = None
+# InputFolder ='/mnt/lustre/share/sunshuyang/vimeo_septuplet/sequences_sig20'
+# labelfolder = None
 
-generate_cropped_images(train_input_dir=InputFolder, train_label_dir=labelfolder,
-                                      batch_paths=full_train_image_list)
-generate_cropped_images(train_input_dir=InputFolder, train_label_dir=labelfolder,
-                        batch_paths=full_test_image_list)
+# generate_cropped_images(train_input_dir=InputFolder, train_label_dir=labelfolder,
+#                                       batch_paths=full_train_image_list)
+# generate_cropped_images(train_input_dir=InputFolder, train_label_dir=labelfolder,
+#                         batch_paths=full_test_image_list)
